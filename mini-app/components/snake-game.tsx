@@ -237,20 +237,28 @@ export default function SnakeGame() {
         height={canvasSize}
         className="border border-gray-300"
       />
-      <div className="flex gap-4">
-        <span className="text-lg">Score: {score}</span>
-        <span className="text-lg">Evolution: {evolution}</span>
-        {mutation && (
-          <span className="text-lg text-yellow-500">
-            Mutation: {mutation} ({mutationTimer}s)
-          </span>
-        )}
-        {milestone && (
-          <span className="text-lg text-green-500">{milestone}</span>
-        )}
-        {gameOver && (
-          <span className="text-lg text-red-600">Game Over!</span>
-        )}
+      <div className="flex flex-col items-center gap-2 mt-2">
+        <div className="flex gap-4">
+          <span className="text-lg">Score: {score}</span>
+          <span className="text-lg">Evolution: {evolution}</span>
+          {mutation && (
+            <span className="text-lg text-yellow-500">
+              Mutation: {mutation} ({mutationTimer}s)
+            </span>
+          )}
+          {milestone && (
+            <span className="text-lg text-green-500">{milestone}</span>
+          )}
+          {gameOver && (
+            <span className="text-lg text-red-600">Game Over!</span>
+          )}
+        </div>
+        <div className="flex gap-2">
+          <Button onClick={() => setDirection({ x: 0, y: -1 })}>↑</Button>
+          <Button onClick={() => setDirection({ x: 0, y: 1 })}>↓</Button>
+          <Button onClick={() => setDirection({ x: -1, y: 0 })}>←</Button>
+          <Button onClick={() => setDirection({ x: 1, y: 0 })}>→</Button>
+        </div>
       </div>
       {gameOver && (
         <div className="flex flex-col items-center gap-2">
