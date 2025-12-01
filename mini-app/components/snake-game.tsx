@@ -204,7 +204,7 @@ export default function SnakeGame() {
       Armored: "blue",
       Legendary: "gold",
     };
-    ctx.fillStyle = colors[evolution];
+    ctx.fillStyle = colors[evolution as keyof typeof colors];
     snake.forEach((segment) => {
       ctx.fillRect(
         segment.x * cellSize,
