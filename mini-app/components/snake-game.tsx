@@ -1,10 +1,20 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { Button } from "@/components/ui/button";
+import { Share } from "@/components/share";
+import { url } from "@/lib/metadata";
 
 const canvasSize = 400;
 const cellSize = 20;
 const initialSpeed = 200;
+const mutationTypes = ["speed", "shield", "double", "camouflage"] as const;
+type Mutation = typeof mutationTypes[number];
+
+interface LeaderboardEntry {
+  score: number;
+  wallet: string;
+}
 
 export default function SnakeGame() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -15,13 +25,33 @@ export default function SnakeGame() {
     x: 0,
     y: 0,
   });
-  const [ball, setBall] = useState<{ x: number; y: number }>({
+  const [ball, setBall] = useState<{
+    x: number;
+    y: number;
+    type: Mutation;
+  }>({
     x: Math.floor(Math.random() * (canvasSize / cellSize)),
     y: Math.floor(Math.random() * (canvasSize / cellSize)),
+    type: "speed",
   });
   const [score, setScore] = useState(0);
   const [gameOver, setGameOver] = useState(false);
   const [speed, setSpeed] = useState(initialSpeed);
+  const [mutation, setMutation] = useState<Mutation | null>(null);
+  const [mutationTimer, setMutationTimer] = useState(0);
+  const [evolution, setEvolution] = useState<string>("Tiny");
+  const [leaderboard, setLeaderboard] = useState<LeaderboardEntry[]>([]);
+  const [milestone, setMilestone] = useState<string | null>(null);
+
+  // Fetch leaderboard (placeholder)
+  useEffect(() => {
+    // In a real app, fetch from backend or blockchain
+    setLeaderboard([
+      { score: 50, wallet: "0xABC..." },
+      { score: 30, wallet: "0xDEF..." },
+      { score: 20, wallet: "0x123..." },
+    ]);
+  }, []);
 
   // Handle keyboard input
   useEffect(() => {
@@ -45,6 +75,33 @@ export default function SnakeGame() {
     return () => window.removeEventListener("keydown", handleKey);
   }, []);
 
+  // Handle touch joystick
+  useEffect(() => {
+    let startX = 0;
+    let startY = 0;
+    const handleTouchStart = (e: TouchEvent) => {
+      const touch = e.touches[0];
+      startX = touch.clientX;
+      startY = touch.clientY;
+    };
+    const handleTouchMove = (e: TouchEvent) => {
+      const touch = e.touches[0];
+      const dx = touch.clientX - startX;
+      const dy = touch.clientY - startY;
+      if (Math.abs(dx) > Math.abs(dy)) {
+        setDirection({ x: dx > 0 ? 1 : -1, y: 0 });
+      } else {
+        setDirection({ x: 0, y: dy > 0 ? 1 : -1 });
+      }
+    };
+    window.addEventListener("touchstart", handleTouchStart);
+    window.addEventListener("touchmove", handleTouchMove);
+    return () => {
+      window.removeEventListener("touchstart", handleTouchStart);
+      window.removeEventListener("touchmove", handleTouchMove);
+    };
+  }, []);
+
   // Game loop
   useEffect(() => {
     if (gameOver) return;
@@ -55,7 +112,7 @@ export default function SnakeGame() {
           y: prev[0].y + direction.y,
         };
 
-        // Check wall collision
+        // Wall collision
         if (
           newHead.x < 0 ||
           newHead.x >= canvasSize / cellSize ||
@@ -66,7 +123,7 @@ export default function SnakeGame() {
           return prev;
         }
 
-        // Check self collision
+        // Self collision
         if (prev.some((segment) => segment.x === newHead.x && segment.y === newHead.y)) {
           setGameOver(true);
           return prev;
@@ -74,14 +131,19 @@ export default function SnakeGame() {
 
         const newSnake = [newHead, ...prev];
 
-        // Check ball collision
+        // Ball collision
         if (newHead.x === ball.x && newHead.y === ball.y) {
+          // Apply mutation effect
+          applyMutation(ball.type);
           setScore((s) => s + 1);
           setSpeed((s) => Math.max(50, s - 10));
-          setBall({
-            x: Math.floor(Math.random() * (canvasSize / cellSize)),
-            y: Math.floor(Math.random() * (canvasSize / cellSize)),
-          });
+          spawnBall();
+          // Evolution check
+          if (score + 1 === 10) setEvolution("Agile");
+          if (score + 1 === 20) setEvolution("Armored");
+          if (score + 1 === 30) setEvolution("Legendary");
+          // Milestone
+          if (score + 1 === 15) setMilestone("15 balls collected!");
           return newSnake; // grow
         }
 
@@ -89,7 +151,43 @@ export default function SnakeGame() {
       });
     }, speed);
     return () => clearInterval(interval);
-  }, [direction, ball, speed, gameOver]);
+  }, [direction, ball, speed, gameOver, score]);
+
+  // Mutation timer
+  useEffect(() => {
+    if (!mutation) return;
+    const timer = setInterval(() => {
+      setMutationTimer((t) => t - 1);
+    }, 1000);
+    if (mutationTimer <= 0) {
+      clearInterval(timer);
+      setMutation(null);
+    }
+    return () => clearInterval(timer);
+  }, [mutation, mutationTimer]);
+
+  const applyMutation = (type: Mutation) => {
+    setMutation(type);
+    setMutationTimer(5); // 5 seconds
+    if (type === "speed") {
+      setSpeed((s) => Math.max(50, s - 30));
+    } else if (type === "shield") {
+      // shield logic could be added
+    } else if (type === "double") {
+      setScore((s) => s + 1); // double point
+    } else if (type === "camouflage") {
+      // camouflage logic could be added
+    }
+  };
+
+  const spawnBall = () => {
+    const newType = mutationTypes[Math.floor(Math.random() * mutationTypes.length)];
+    setBall({
+      x: Math.floor(Math.random() * (canvasSize / cellSize)),
+      y: Math.floor(Math.random() * (canvasSize / cellSize)),
+      type: newType,
+    });
+  };
 
   // Draw
   useEffect(() => {
@@ -99,8 +197,14 @@ export default function SnakeGame() {
     if (!ctx) return;
     ctx.clearRect(0, 0, canvasSize, canvasSize);
 
-    // Draw snake
-    ctx.fillStyle = "green";
+    // Draw snake with evolution color
+    const colors = {
+      Tiny: "green",
+      Agile: "lime",
+      Armored: "blue",
+      Legendary: "gold",
+    };
+    ctx.fillStyle = colors[evolution];
     snake.forEach((segment) => {
       ctx.fillRect(
         segment.x * cellSize,
@@ -111,14 +215,14 @@ export default function SnakeGame() {
     });
 
     // Draw ball
-    ctx.fillStyle = "red";
+    ctx.fillStyle = mutation === "camouflage" ? "gray" : "red";
     ctx.fillRect(
       ball.x * cellSize,
       ball.y * cellSize,
       cellSize,
       cellSize
     );
-  }, [snake, ball]);
+  }, [snake, ball, mutation, evolution]);
 
   const restart = () => {
     setSnake([{ x: 10, y: 10 }]);
@@ -126,11 +230,27 @@ export default function SnakeGame() {
     setScore(0);
     setGameOver(false);
     setSpeed(initialSpeed);
-    setBall({
-      x: Math.floor(Math.random() * (canvasSize / cellSize)),
-      y: Math.floor(Math.random() * (canvasSize / cellSize)),
-    });
+    setMutation(null);
+    setMutationTimer(0);
+    setEvolution("Tiny");
+    setMilestone(null);
+    spawnBall();
   };
+
+  // Placeholder Web3 interactions
+  const awardTokens = (amount: number) => {
+    console.log(`Awarded ${amount} tokens to wallet`);
+  };
+  const mintNFT = (stage: string) => {
+    console.log(`Minted ${stage} NFT`);
+  };
+
+  // Award tokens on score thresholds
+  useEffect(() => {
+    if (score === 5) awardTokens(10);
+    if (score === 10) awardTokens(20);
+    if (score === 20) mintNFT("Armored");
+  }, [score]);
 
   return (
     <div className="flex flex-col items-center gap-4">
@@ -142,18 +262,36 @@ export default function SnakeGame() {
       />
       <div className="flex gap-4">
         <span className="text-lg">Score: {score}</span>
+        <span className="text-lg">Evolution: {evolution}</span>
+        {mutation && (
+          <span className="text-lg text-yellow-500">
+            Mutation: {mutation} ({mutationTimer}s)
+          </span>
+        )}
+        {milestone && (
+          <span className="text-lg text-green-500">{milestone}</span>
+        )}
         {gameOver && (
           <span className="text-lg text-red-600">Game Over!</span>
         )}
       </div>
       {gameOver && (
-        <button
-          onClick={restart}
-          className="px-4 py-2 bg-blue-500 text-white rounded"
-        >
-          Restart
-        </button>
+        <div className="flex gap-2">
+          <Button onClick={restart}>Restart</Button>
+          <Share text={`I scored ${score} in Snake & Ball! ${url}`} />
+        </div>
       )}
+      <div className="w-full max-w-md mt-4">
+        <h2 className="text-xl font-semibold mb-2">Leaderboard</h2>
+        <ul className="space-y-1">
+          {leaderboard.map((entry, idx) => (
+            <li key={idx} className="flex justify-between">
+              <span>{entry.wallet}</span>
+              <span>{entry.score}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
     </div>
   );
 }
