@@ -38,6 +38,8 @@ export default function SnakeGame() {
   const [gameOver, setGameOver] = useState(false);
   const [speed, setSpeed] = useState(initialSpeed);
   const [mutation, setMutation] = useState<Mutation | null>(null);
+  const [doublePointsActive, setDoublePointsActive] = useState<boolean>(false);
+  const [shieldActive, setShieldActive] = useState<boolean>(false);
   const [mutationTimer, setMutationTimer] = useState(0);
   const [evolution, setEvolution] = useState<string>("Tiny");
   const [leaderboard, setLeaderboard] = useState<LeaderboardEntry[]>([]);
@@ -124,7 +126,7 @@ export default function SnakeGame() {
         }
 
         // Self collision
-        if (prev.some((segment) => segment.x === newHead.x && segment.y === newHead.y)) {
+        if (!shieldActive && prev.some((segment) => segment.x === newHead.x && segment.y === newHead.y)) {
           setGameOver(true);
           return prev;
         }
@@ -135,7 +137,9 @@ export default function SnakeGame() {
         if (newHead.x === ball.x && newHead.y === ball.y) {
           // Apply mutation effect
           applyMutation(ball.type);
-          setScore((s) => s + 1);
+          const points = doublePointsActive ? 2 : 1;
+          setScore((s) => s + points);
+          if (doublePointsActive) setDoublePointsActive(false);
           setSpeed((s) => Math.max(50, s - 10));
           spawnBall();
           // Evolution check
@@ -156,14 +160,13 @@ export default function SnakeGame() {
   // Mutation timer
   useEffect(() => {
     if (!mutation) return;
-    const timer = setInterval(() => {
-      setMutationTimer((t) => t - 1);
-    }, 1000);
-    if (mutationTimer <= 0) {
-      clearInterval(timer);
+    const timer = setTimeout(() => {
       setMutation(null);
-    }
-    return () => clearInterval(timer);
+      setMutationTimer(0);
+      if (mutation === "shield") setShieldActive(false);
+      if (mutation === "double") setDoublePointsActive(false);
+    }, mutationTimer * 1000);
+    return () => clearTimeout(timer);
   }, [mutation, mutationTimer]);
 
   const applyMutation = (type: Mutation) => {
@@ -172,9 +175,9 @@ export default function SnakeGame() {
     if (type === "speed") {
       setSpeed((s) => Math.max(50, s - 30));
     } else if (type === "shield") {
-      // shield logic could be added
+      setShieldActive(true);
     } else if (type === "double") {
-      setScore((s) => s + 1); // double point
+      setDoublePointsActive(true);
     } else if (type === "camouflage") {
       // camouflage logic could be added
     }
@@ -226,7 +229,7 @@ export default function SnakeGame() {
 
   const restart = () => {
     setSnake([{ x: 10, y: 10 }]);
-    setDirection({ x: 0, y: 0 });
+    setDirection({ x: 1, y: 0 });
     setScore(0);
     setGameOver(false);
     setSpeed(initialSpeed);
@@ -276,9 +279,14 @@ export default function SnakeGame() {
         )}
       </div>
       {gameOver && (
-        <div className="flex gap-2">
+        <div className="flex flex-col items-center gap-2">
           <Button onClick={restart}>Restart</Button>
           <Share text={`I scored ${score} in Snake & Ball! ${url}`} />
+          {milestone && (
+            <div className="bg-green-100 text-green-800 p-2 rounded">
+              {milestone}
+            </div>
+          )}
         </div>
       )}
       <div className="w-full max-w-md mt-4">
