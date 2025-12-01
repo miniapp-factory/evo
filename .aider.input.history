@@ -258,3 +258,31 @@
 
 # 2025-12-01 07:29:18.890918
 +Make the leaderboard dynamic from the players highest points
+
+# 2025-12-01 07:44:13.960132
++You are an expert game developer. Update the existing Snake & Ball game to implement a **dynamic leaderboard**.
++
++Changes Required:
++- The leaderboard should update automatically based on each player's **highest score**.
++- As a player improves their score, their position on the leaderboard should dynamically change in real time.
++- Display the **top N players** sorted by their highest score.
++- Link each leaderboard entry to the player’s wallet address (for Web3 integration).
++- When a player achieves a new high score, trigger a visual notification or milestone pop-up.
++- Ensure the dynamic leaderboard works across all game sessions and reflects the latest high scores immediately.
++
++Everything else in the game (tap-to-turn controls, continuous snake movement, ball collection, snake growth, mutations, evolution, NFTs, token rewards, visual effects, and milestone messages) should remain unchanged.
++
+
+# 2025-12-01 07:44:13.960517
++You are an expert game developer. Update the existing Snake & Ball game to implement a **dynamic leaderboard**.
++
++Changes Required:
++- The leaderboard should update automatically based on each player's **highest score**.
++- As a player improves their score, their position on the leaderboard should dynamically change in real time.
++- Display the **top N players** sorted by their highest score.
++- Link each leaderboard entry to the player’s wallet address (for Web3 integration).
++- When a player achieves a new high score, trigger a visual notification or milestone pop-up.
++- Ensure the dynamic leaderboard works across all game sessions and reflects the latest high scores immediately.
++
++Everything else in the game (tap-to-turn controls, continuous snake movement, ball collection, snake growth, mutations, evolution, NFTs, token rewards, visual effects, and milestone messages) should remain unchanged.
++
