@@ -1,0 +1,46 @@
+
+# 2025-12-01 05:47:59.056082
++Code the following app
++```
++You are an expert game developer. Generate code and game logic for a Snake & Ball game to display on the home page. 
++
++Game Requirements:
++- Player controls a snake that moves around the screen using a joystick (mobile) or arrow keys (desktop).
++- Snake collects balls that spawn randomly on the screen.
++- Each ball gives 1 point; collecting balls increases the snake's speed slightly.
++- The snake grows longer as it collects balls.
++- If the snake hits a wall or its own tail, the game ends.
++- Display a leaderboard below the game showing top scores.
++- Use conditional render to check if a player wins a milestone (like collecting a certain number of balls) and display a win message.
++- The player can always continue playing or start a new game after death.
++- Include optional Web3 features:
++    - Each player can have a snake NFT with traits (speed, size, color).
++    - Balls collected can award tokens ($SNAKE or $BALL) to the player's wallet.
++    - Rare achievements or milestones can mint new NFTs to the player's wallet.
++
++```
++
++Generate an app logo and update the app metadata title and description.
+
+# 2025-12-01 05:47:59.056528
++Code the following app
++```
++You are an expert game developer. Generate code and game logic for a Snake & Ball game to display on the home page. 
++
++Game Requirements:
++- Player controls a snake that moves around the screen using a joystick (mobile) or arrow keys (desktop).
++- Snake collects balls that spawn randomly on the screen.
++- Each ball gives 1 point; collecting balls increases the snake's speed slightly.
++- The snake grows longer as it collects balls.
++- If the snake hits a wall or its own tail, the game ends.
++- Display a leaderboard below the game showing top scores.
++- Use conditional render to check if a player wins a milestone (like collecting a certain number of balls) and display a win message.
++- The player can always continue playing or start a new game after death.
++- Include optional Web3 features:
++    - Each player can have a snake NFT with traits (speed, size, color).
++    - Balls collected can award tokens ($SNAKE or $BALL) to the player's wallet.
++    - Rare achievements or milestones can mint new NFTs to the player's wallet.
++
++```
++
++Generate an app logo and update the app metadata title and description.
