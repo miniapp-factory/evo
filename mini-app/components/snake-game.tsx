@@ -134,6 +134,23 @@ export default function SnakeGame() {
     return () => clearInterval(interval);
   }, [direction, ball, speed, gameOver, score]);
 
+  // Update high score and leaderboard
+  useEffect(() => {
+    if (score > highScore) {
+      setHighScore(score);
+      setNewHighScore(true);
+      updateLeaderboard(score, wallet);
+    }
+  }, [score, highScore, wallet]);
+
+  // Hide new high score notification after 3 seconds
+  useEffect(() => {
+    if (newHighScore) {
+      const timer = setTimeout(() => setNewHighScore(false), 3000);
+      return () => clearTimeout(timer);
+    }
+  }, [newHighScore]);
+
   // Mutation timer
   useEffect(() => {
     if (!mutation) return;
