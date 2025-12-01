@@ -22,7 +22,7 @@ export default function SnakeGame() {
     { x: 10, y: 10 },
   ]);
   const [direction, setDirection] = useState<{ x: number; y: number }>({
-    x: 0,
+    x: 1,
     y: 0,
   });
   const [ball, setBall] = useState<{
@@ -77,32 +77,6 @@ export default function SnakeGame() {
     return () => window.removeEventListener("keydown", handleKey);
   }, []);
 
-  // Handle touch joystick
-  useEffect(() => {
-    let startX = 0;
-    let startY = 0;
-    const handleTouchStart = (e: TouchEvent) => {
-      const touch = e.touches[0];
-      startX = touch.clientX;
-      startY = touch.clientY;
-    };
-    const handleTouchMove = (e: TouchEvent) => {
-      const touch = e.touches[0];
-      const dx = touch.clientX - startX;
-      const dy = touch.clientY - startY;
-      if (Math.abs(dx) > Math.abs(dy)) {
-        setDirection({ x: dx > 0 ? 1 : -1, y: 0 });
-      } else {
-        setDirection({ x: 0, y: dy > 0 ? 1 : -1 });
-      }
-    };
-    window.addEventListener("touchstart", handleTouchStart);
-    window.addEventListener("touchmove", handleTouchMove);
-    return () => {
-      window.removeEventListener("touchstart", handleTouchStart);
-      window.removeEventListener("touchmove", handleTouchMove);
-    };
-  }, []);
 
   // Game loop
   useEffect(() => {
