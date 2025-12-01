@@ -184,3 +184,71 @@
 +```
 +
 +Generate an app logo and update the app metadata title and description.
+
+# 2025-12-01 06:56:35.992171
++You are an expert game developer. Generate playable code and game logic for a unique Snake & Ball game for the home page, fully playable with **tap button controls**.
++
++Game Requirements:
++- Snake moves continuously in its current direction automatically.
++- Player changes the snake's direction by **tapping directional buttons** (up, down, left, right) displayed below the game area. No dragging or joystick dragging.
++- Snake collects balls that spawn randomly on the screen.
++- Each ball gives 1 point; collecting balls slightly increases snake speed.
++- Snake grows longer with each ball collected.
++- Collision with walls or its own tail ends the game.
++- Display a **leaderboard** below the game showing top scores linked to wallet addresses.
++- Use **conditional rendering** to check milestone wins (collecting X balls, reaching length Y, or special achievements) and display a shareable win message.
++- Player can always start a new game after death.
++- Unique gameplay features:
++    - Mutation balls trigger temporary effects: speed boost, tail shield, double points, camouflage.
++    - Rare balls or milestones unlock **snake evolution stages** (Tiny → Agile → Armored → Legendary), updating NFT metadata.
++    - Special skins, tail effects, and particle animations for milestones and rare mutations.
++    - Collecting sequences or patterns of balls triggers bonus rewards or rare mutations.
++- Ensure the snake responds **instantly and smoothly** to tap button inputs.
++
++Web3 & NFT Features:
++- Each player has a snake NFT with traits: speed, size, color, tail effects.
++- Collecting balls gives tokens ($BALL or $SNAKE) to the player's wallet.
++- Rare balls or milestones can mint new NFT traits or evolution levels.
++
++Visuals & Animations:
++- Snake growth, speed changes, and tail effects are visible.
++- Smooth animations for snake movement and tail growth.
++- Particle effects or glows when collecting rare balls or hitting milestones.
++- Win and milestone notifications appear overlayed and shareable.
++
++Make the code lightweight, optimized for performance, and clearly differentiate this game from the original Nokia Snake.
++
+
+# 2025-12-01 06:56:35.992759
++You are an expert game developer. Generate playable code and game logic for a unique Snake & Ball game for the home page, fully playable with **tap button controls**.
++
++Game Requirements:
++- Snake moves continuously in its current direction automatically.
++- Player changes the snake's direction by **tapping directional buttons** (up, down, left, right) displayed below the game area. No dragging or joystick dragging.
++- Snake collects balls that spawn randomly on the screen.
++- Each ball gives 1 point; collecting balls slightly increases snake speed.
++- Snake grows longer with each ball collected.
++- Collision with walls or its own tail ends the game.
++- Display a **leaderboard** below the game showing top scores linked to wallet addresses.
++- Use **conditional rendering** to check milestone wins (collecting X balls, reaching length Y, or special achievements) and display a shareable win message.
++- Player can always start a new game after death.
++- Unique gameplay features:
++    - Mutation balls trigger temporary effects: speed boost, tail shield, double points, camouflage.
++    - Rare balls or milestones unlock **snake evolution stages** (Tiny → Agile → Armored → Legendary), updating NFT metadata.
++    - Special skins, tail effects, and particle animations for milestones and rare mutations.
++    - Collecting sequences or patterns of balls triggers bonus rewards or rare mutations.
++- Ensure the snake responds **instantly and smoothly** to tap button inputs.
++
++Web3 & NFT Features:
++- Each player has a snake NFT with traits: speed, size, color, tail effects.
++- Collecting balls gives tokens ($BALL or $SNAKE) to the player's wallet.
++- Rare balls or milestones can mint new NFT traits or evolution levels.
++
++Visuals & Animations:
++- Snake growth, speed changes, and tail effects are visible.
++- Smooth animations for snake movement and tail growth.
++- Particle effects or glows when collecting rare balls or hitting milestones.
++- Win and milestone notifications appear overlayed and shareable.
++
++Make the code lightweight, optimized for performance, and clearly differentiate this game from the original Nokia Snake.
++
