@@ -47,12 +47,12 @@ export default function SnakeGame() {
 
   // Fetch leaderboard (placeholder)
   useEffect(() => {
-    // In a real app, fetch from backend or blockchain
-    setLeaderboard([
-      { score: 50, wallet: "0xABC..." },
-      { score: 30, wallet: "0xDEF..." },
-      { score: 20, wallet: "0x123..." },
-    ]);
+    // Load leaderboard from localStorage and keep top 10 scores
+    const stored = JSON.parse(localStorage.getItem("leaderboard") || "[]");
+    const sorted = stored
+      .sort((a: LeaderboardEntry, b: LeaderboardEntry) => b.score - a.score)
+      .slice(0, 10);
+    setLeaderboard(sorted);
   }, []);
 
   // Handle keyboard input
@@ -217,6 +217,10 @@ export default function SnakeGame() {
   // Placeholder Web3 interactions
   const awardTokens = (amount: number) => {
     console.log(`Awarded ${amount} tokens to wallet`);
+    // Persist the current score to the leaderboard in localStorage
+    const current = JSON.parse(localStorage.getItem("leaderboard") || "[]");
+    current.push({ score, wallet: "0xUSER" });
+    localStorage.setItem("leaderboard", JSON.stringify(current));
   };
   const mintNFT = (stage: string) => {
     console.log(`Minted ${stage} NFT`);
