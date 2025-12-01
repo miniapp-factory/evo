@@ -35,6 +35,9 @@ export default function SnakeGame() {
     type: "speed",
   });
   const [score, setScore] = useState(0);
+  const [wallet, setWallet] = useState<string>("0xUSER");
+  const [highScore, setHighScore] = useState<number>(0);
+  const [newHighScore, setNewHighScore] = useState<boolean>(false);
   const [gameOver, setGameOver] = useState(false);
   const [speed, setSpeed] = useState(initialSpeed);
   const [mutation, setMutation] = useState<Mutation | null>(null);
@@ -166,6 +169,23 @@ export default function SnakeGame() {
     });
   };
 
+  const updateLeaderboard = (newScore: number, walletAddr: string) => {
+    const stored = JSON.parse(localStorage.getItem("leaderboard") || "[]");
+    const existingIndex = stored.findIndex((e: LeaderboardEntry) => e.wallet === walletAddr);
+    if (existingIndex >= 0) {
+      if (newScore > stored[existingIndex].score) {
+        stored[existingIndex].score = newScore;
+      }
+    } else {
+      stored.push({ score: newScore, wallet: walletAddr });
+    }
+    const sorted = stored
+      .sort((a: LeaderboardEntry, b: LeaderboardEntry) => b.score - a.score)
+      .slice(0, 10);
+    localStorage.setItem("leaderboard", JSON.stringify(stored));
+    setLeaderboard(sorted);
+  };
+
   // Draw
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -211,16 +231,14 @@ export default function SnakeGame() {
     setMutationTimer(0);
     setEvolution("Tiny");
     setMilestone(null);
+    setNewHighScore(false);
     spawnBall();
   };
 
   // Placeholder Web3 interactions
   const awardTokens = (amount: number) => {
     console.log(`Awarded ${amount} tokens to wallet`);
-    // Persist the current score to the leaderboard in localStorage
-    const current = JSON.parse(localStorage.getItem("leaderboard") || "[]");
-    current.push({ score, wallet: "0xUSER" });
-    localStorage.setItem("leaderboard", JSON.stringify(current));
+    updateLeaderboard(score, wallet);
   };
   const mintNFT = (stage: string) => {
     console.log(`Minted ${stage} NFT`);
@@ -256,6 +274,11 @@ export default function SnakeGame() {
           {gameOver && (
             <span className="text-lg text-red-600">Game Over!</span>
           )}
+          {newHighScore && (
+            <div className="bg-blue-100 text-blue-800 p-2 rounded">
+              New high score: {score}!
+            </div>
+          )}
         </div>
         <div className="flex gap-2">
           <Button onClick={() => setDirection({ x: 0, y: -1 })}>↑</Button>
@@ -280,7 +303,9 @@ export default function SnakeGame() {
         <ul className="space-y-1">
           {leaderboard.map((entry, idx) => (
             <li key={idx} className="flex justify-between">
-              <span>{entry.wallet}</span>
+              <a href={`https://etherscan.io/address/${entry.wallet}`} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">
+                {entry.wallet}
+              </a>
               <span>{entry.score}</span>
             </li>
           ))}
