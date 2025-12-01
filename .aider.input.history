@@ -44,3 +44,67 @@
 +```
 +
 +Generate an app logo and update the app metadata title and description.
+
+# 2025-12-01 06:06:36.469389
++You are an expert game developer. Generate code and game logic for a unique Snake & Ball game for the home page.
++
++Game Requirements:
++- Player controls a snake using a joystick (mobile) or arrow keys (desktop).
++- Snake collects balls that spawn randomly.
++- Each ball gives 1 point and slightly increases snake speed.
++- Snake grows longer with each ball collected.
++- Hitting a wall or own tail ends the game.
++- Display a leaderboard below the game showing top scores linked to wallet addresses.
++- Use conditional rendering to check milestone wins (collecting X balls or reaching length Y) and display a shareable win message.
++- Player can always start a new game after death.
++- Introduce new gameplay twists to differentiate from classic Snake:
++    - Some balls trigger “mutation effects” like temporary speed boost, tail shield, double points, or camouflage.
++    - Rare balls or milestones can unlock **snake evolution stages** (Tiny → Agile → Armored → Legendary), updating NFT metadata.
++    - Special skins, tail effects, or particles for milestones and rare mutations.
++    - Milestones, mutations, and evolution updates are shareable on the social feed.
++
++Web3 & NFT Features:
++- Each player has a snake NFT with traits: speed, size, color, tail effects.
++- Collecting balls gives tokens ($BALL or $SNAKE) to the player's wallet.
++- Rare balls or achievements mint new NFT traits or evolution levels.
++
++Visuals & Animations:
++- Snake growth, speed changes, and tail effects are visible.
++- Smooth animations for snake movement and tail growth.
++- Particle effects or glows when collecting rare balls or hitting milestones.
++- Win and milestone notifications appear overlayed and shareable.
++
++Make the code lightweight, optimized for performance
++
+
+# 2025-12-01 06:06:36.470382
++You are an expert game developer. Generate code and game logic for a unique Snake & Ball game for the home page.
++
++Game Requirements:
++- Player controls a snake using a joystick (mobile) or arrow keys (desktop).
++- Snake collects balls that spawn randomly.
++- Each ball gives 1 point and slightly increases snake speed.
++- Snake grows longer with each ball collected.
++- Hitting a wall or own tail ends the game.
++- Display a leaderboard below the game showing top scores linked to wallet addresses.
++- Use conditional rendering to check milestone wins (collecting X balls or reaching length Y) and display a shareable win message.
++- Player can always start a new game after death.
++- Introduce new gameplay twists to differentiate from classic Snake:
++    - Some balls trigger “mutation effects” like temporary speed boost, tail shield, double points, or camouflage.
++    - Rare balls or milestones can unlock **snake evolution stages** (Tiny → Agile → Armored → Legendary), updating NFT metadata.
++    - Special skins, tail effects, or particles for milestones and rare mutations.
++    - Milestones, mutations, and evolution updates are shareable on the social feed.
++
++Web3 & NFT Features:
++- Each player has a snake NFT with traits: speed, size, color, tail effects.
++- Collecting balls gives tokens ($BALL or $SNAKE) to the player's wallet.
++- Rare balls or achievements mint new NFT traits or evolution levels.
++
++Visuals & Animations:
++- Snake growth, speed changes, and tail effects are visible.
++- Smooth animations for snake movement and tail growth.
++- Particle effects or glows when collecting rare balls or hitting milestones.
++- Win and milestone notifications appear overlayed and shareable.
++
++Make the code lightweight, optimized for performance
++
