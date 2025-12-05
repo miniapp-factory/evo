@@ -63,15 +63,23 @@ export default function SnakeGame() {
     const handleKey = (e: KeyboardEvent) => {
       switch (e.key) {
         case "ArrowUp":
+        case "w":
+        case "W":
           setDirection({ x: 0, y: -1 });
           break;
         case "ArrowDown":
+        case "s":
+        case "S":
           setDirection({ x: 0, y: 1 });
           break;
         case "ArrowLeft":
+        case "a":
+        case "A":
           setDirection({ x: -1, y: 0 });
           break;
         case "ArrowRight":
+        case "d":
+        case "D":
           setDirection({ x: 1, y: 0 });
           break;
       }
